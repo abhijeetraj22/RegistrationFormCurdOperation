@@ -1,0 +1,88 @@
+﻿@model RegistrationForm.Models.User
+
+<h2>New User Registration</h2>
+
+<form asp-action="Create" class="p-4 border rounded shadow-sm">
+    <fieldset class="border p-4 mb-3">
+        <legend class="w-auto px-2">User Details</legend>
+
+        <div class="form-group mb-3">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" placeholder="Enter your full name" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="State" class="form-label"></label>
+            <select asp-for="State" id="state" class="form-control">
+                <option value="">-- Select State --</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Punjab">Punjab</option>
+                <option value="Telangana">Telangana</option>
+                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                <!-- Add more states as needed -->
+            </select>
+            <span asp-validation-for="State" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="City" class="form-label"></label>
+            <select asp-for="City" id="city" class="form-control">
+                <option value="">-- Select City --</option>
+                <!-- Cities will be populated based on state selection -->
+            </select>
+            <span asp-validation-for="City" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Age" class="form-label"></label>
+            <input asp-for="Age" class="form-control" placeholder="Enter your age" />
+            <span asp-validation-for="Age" class="text-danger"></span>
+        </div>
+
+    </fieldset>
+
+    <button type="submit" class="btn btn-primary">Register</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        // State-to-City mapping
+        const stateCityMap = {
+            'Delhi': ['Delhi','New Delhi'],
+            'Punjab': ['Amritsar', 'Batala', 'Chandigarh', 'Faridkot', 'Firozpur', 'Gurdaspur', 'Hoshiarpur', 'Jalandhar',
+                        'Kapurthala', 'Ludhiana', 'Nabha', 'Patiala', 'Rupnagar', 'Sangrur'],
+            'Telangana': ['Hyderabad', 'Karimnagar', 'Khammam', 'Mahbubnagar', 'Nizamabad', 'Sangareddi', 'Warangal'],
+            'Uttar Pradesh': ['Agra', 'Aligarh', 'Amroha', 'Ayodhya', 'Azamgarh', 'Bahraich', 'Ballia', 'Banda', 'Bara Banki', 'Bareilly', 'Basti',
+                'Bijnor', 'Bithur', 'Budaun', 'Bulandshahr', 'Deoria', 'Etah', 'Etawah', 'Faizabad', 'Fatehgarh', 'Fatehpur',
+                'Fatehpur Sikri', 'Ghaziabad', 'Ghazipur', 'Gonda', 'Gorakhpur', 'Hamirpur', 'Hardoi', 'Hathras', 'Jalaun', 'Jaunpur',
+                'Jhansi', 'Kannauj', 'Kanpur', 'Lakhimpur', 'Lalitpur', 'Lucknow', 'Mainpuri', 'Mathura', 'Meerut', 'Mirzapur', 'Vindhyachal',
+                'Moradabad', 'Muzaffarnagar', 'Partapgarh', 'Pilibhit', 'Prayagraj', 'Rae Bareli', 'Rampur', 'Saharanpur', 'Sambhal',
+                'Shahjahanpur', 'Sitapur', 'Sultanpur', 'Tehri', 'Varanasi']
+            // Add more states and cities as needed
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const stateSelect = document.getElementById('state');
+            const citySelect = document.getElementById('city');
+
+            stateSelect.addEventListener('change', function () {
+                const selectedState = stateSelect.value;
+                const cities = stateCityMap[selectedState] || [];
+
+                // Clear existing options
+                citySelect.innerHTML = '<option value="">-- Select City --</option>';
+
+                // Add new options based on selected state
+                cities.forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city;
+                    option.textContent = city;
+                    citySelect.appendChild(option);
+                });
+            });
+        });
+    </script>
+}

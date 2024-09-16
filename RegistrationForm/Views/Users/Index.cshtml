@@ -1,0 +1,53 @@
+﻿@model IEnumerable<RegistrationForm.Models.User>
+
+<h2>Registered Users</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New User</a>
+</p>
+
+<fieldset class="border p-4">
+    <legend class="w-auto px-2">Registered Users List</legend>
+
+    @if (Model.Any())
+    {
+        <table class="table table-bordered">
+            <thead class="thead-light">
+                <tr>
+                    <th>Name</th>
+                    <th>State</th>
+                    <th>City</th>
+                    <th>Age</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>
+                            <input type="text" class="form-control" value="@user.Name" readonly />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" value="@user.State" readonly />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" value="@user.City" readonly />
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" value="@user.Age" readonly />
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-warning">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@user.Id" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No users have been registered yet.</p>
+    }
+</fieldset>
